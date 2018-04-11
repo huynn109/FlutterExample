@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:html/dom.dart';
+import 'package:flutternw/model/champion_response.dart';
 import 'package:html/parser.dart' show parse;
 
 void main() {
@@ -29,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var _ipAddress = 'Unknown';
 
   _getIPAddress() async {
-    var url = 'urlExample';
+    var url = '';
     var httpClient = new HttpClient();
 
     String result;
@@ -42,9 +42,11 @@ class _MyHomePageState extends State<MyHomePage> {
         var jsonString = await response.transform(utf8.decoder).join();
 //        debugPrint(jsonString);
 //        _main(jsonString);
- var data = json.decode(jsonString);
+        var data = json.decode(jsonString);
 //        debugPrint("Hello " + data.toString());
-        result = data['champions'];
+        var championResponse = new ChampionResponse.fromJson(data);
+        result = championResponse.champions.last.name;
+        debugPrint(championResponse.champions.last.name);
       } else {
         result =
             'Error getting IP address:\nHttp status ${response.statusCode}';
@@ -65,11 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _main(data) {
-    var document =
-        parse(data);
+    var document = parse(data);
 //    print(document.outerHtml);
-    debugPrint(document.body.getElementsByClassName('champion-tags__tag')
-        .length.toString());
+    debugPrint(document.body
+        .getElementsByClassName('champion-tags__tag')
+        .length
+        .toString());
   }
 
   @override
@@ -81,12 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-//            new Text('Your current IP address is:'),
-//            new Text('$_ipAddress.'),
+            new Text('Your current IP address is:'),
+            new Text('$_ipAddress.'),
             spacer,
             new RaisedButton(
               onPressed: _getIPAddress,
-//              child: new Text('Get IP address'),
+              child: new Text('Get IP address'),
             ),
           ],
         ),
