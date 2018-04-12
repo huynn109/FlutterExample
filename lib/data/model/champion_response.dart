@@ -1,6 +1,6 @@
 library champion_response;
 
-import 'package:flutternw/model/champion.dart';
+import 'package:flutternw/data/model/champion.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'champion_response.g.dart';
