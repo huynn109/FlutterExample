@@ -49,11 +49,11 @@ class _ChampionListState extends State<ChampionList> implements HomeView {
       loadingContent: new PlatformAdaptiveProgressIndicator(),
       errorContent: new ErrorView(
         description: 'Error loading events.',
-        onRetry: null,
+        onRetry: () => _presenter.loadChampionList(),
       ),
       successContent: new EventGrid(
         events: _champions,
-        onReloadCallback: null,
+        onReloadCallback: () => _presenter.loadChampionList(),
       ),
     );
   }
